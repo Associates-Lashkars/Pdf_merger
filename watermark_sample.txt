@@ -1,0 +1,41 @@
+    from PIL import Image, ImageDraw, ImageFont
+	def watermark_image_with_text (self):
+
+ 
+
+        inputImage = Image.open(self.p_filePath).convert('RGBA')
+
+        image2Watermark = Image.new('RGBA', inputImage.size, (255, 255, 255, 0))
+
+        draw = ImageDraw.Draw(image2Watermark)
+
+       #সমগ্রবাংলা 
+
+        width, height = inputImage.size
+
+        margin = 10
+
+        font = ImageFont.truetype("arial.ttf", int(height / 20))
+
+        textWidth, textHeight = draw.textsize(waterText, font)
+
+        x = width - textWidth - margin
+
+        y = height - textHeight - margin
+
+        if (self.isDebug == 'True'): print ('\n dBug x = ' , x, ' y = ',y ,'\n')
+
+        finalWaterText = self.waterText + self.timestr
+
+        draw.text((500, 500), finalWaterText, self.waterColor, font)
+
+ 
+
+        return Image.alpha_composite(inputImage, image2Watermark)
+		
+		
+                watermarked_image = self.watermark_image_with_text()
+
+                watermarked_image.save(self.p_filePathWaterMarked)               
+
+                print ( "\n Saved in ", self.p_filePathWaterMarked)
